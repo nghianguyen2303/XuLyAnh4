@@ -1,0 +1,11 @@
+﻿Ảnh,Phương pháp,PSNR,SSIM,NIQE,Thời gian (ms)
+lolv1,Gamma (tự code),—,—,5.437,29.9
+lolv1,HE (tự code),—,—,7.087,126.1
+lolv1,CLAHE (tự code),—,—,5.963,133.0
+lolv1,CLAHE (OpenCV),—,—,6.003,24.0
+lolv1,HVI-CIDNet (k=0.89),—,—,3.241,2472.3
+lolv2,Gamma (tự code),—,—,5.165,18.2
+lolv2,HE (tự code),—,—,6.406,90.9
+lolv2,CLAHE (tự code),—,—,5.397,135.5
+lolv2,CLAHE (OpenCV),—,—,5.332,2.0
+lolv2,HVI-CIDNet (k=0.89),—,—,3.817,2730.3

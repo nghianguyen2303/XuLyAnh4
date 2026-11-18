@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+
+# Trọng số mô hình (tải theo README repo gốc)
+weights/
+*.pth
+*.safetensors
+
+# Gradio
+.gradio/
+flagged/
+
+# IDE
+.vscode/
+.idea/
