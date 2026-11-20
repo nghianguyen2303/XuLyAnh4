@@ -37,16 +37,24 @@
 | **③** Phương pháp cổ điển | Lưới 2×2: Gamma, HE, CLAHE tự code, CLAHE OpenCV |
 | **④** Kênh màu | Hàng trên H, S, V (HSV) — hàng dưới $\hat{H}$, $\hat{V}$, $I_{max}$ (HVI) |
 
-* Toàn bộ chiều rộng màn hình, chữ 18px, tiêu đề 24px, bảng 20px, màu chữ tương phản cao (hỗ trợ cả giao diện sáng/tối).
-* Tương thích **Gradio 4/5/6**: tự kiểm tra bằng `inspect.signature` để đặt `css` ở `gr.Blocks(...)` hay `demo.launch(...)`, chỉ dùng `fill_width` nếu phiên bản có hỗ trợ.
+![Giao diện Web Demo](output_member4/ui_screenshot.png)
+
+* **Bố cục dạng thẻ:** banner tiêu đề, mỗi khu vực là một thẻ có số thứ tự; khu vực ③ và ④ đặt cạnh nhau, cùng 2 hàng ảnh nên cao bằng nhau. Hỗ trợ cả giao diện sáng và tối.
+* **Chữ dễ đọc khi trình chiếu:** phông Inter (đủ dấu tiếng Việt, chữ Hy Lạp, dấu mũ $\hat{H}$, $\hat{V}$), chữ 18px, tiêu đề 24px, bảng 20px.
+* **Ký hiệu đúng chuẩn:** nhãn thanh trượt có chỉ số dưới ($\alpha_I$, $\alpha_S$, $\gamma$, $\gamma_c$, $k$); hộp công thức viết bằng LaTeX, khớp `net/HVI_transform.py`:
+  $C_k = (\sin(\pi I_{max}/2) + \varepsilon)^{1/k}$; $S = \alpha_S\sqrt{\hat h^2 + \hat v^2}$ với $\hat h = \hat H/(C_k+\varepsilon)$, $\hat v = \hat V/(C_k+\varepsilon)$; $\mathrm{RGB}_{out} = \alpha_I \cdot \mathrm{RGB}_{\mathrm{PHVIT}}$.
+* **Nút preset:** *Mặc định*, *LOL-v1*, *LOL-v2-Real*, *Ảnh tự chụp (TV3)* — đặt sẵn trọng số và $\alpha_I$, $\alpha_S$, gamma.
+* **Phản hồi khi bấm Xử lý:** nút đổi thành "⏳ Đang xử lý…" và bị khóa; thanh trạng thái báo đang chạy → "✅ Xong sau X giây" hoặc "⚠ lỗi".
+* **Ảnh mẫu bấm-là-chạy:** hiện khi có thư mục `test_tv3/input/` (ảnh tự chụp của TV3 đã cắt 3:2, cạnh dài 600 px); không có thư mục này app vẫn chạy bình thường.
+* Tương thích **Gradio 4/5/6**: tự kiểm tra bằng `inspect.signature` để đặt `css`/`theme` ở `gr.Blocks(...)` hay `demo.launch(...)`, chỉ dùng `fill_width` nếu phiên bản có hỗ trợ.
 
 | Thanh trượt | Khoảng | Mặc định | Ý nghĩa |
 | :--- | :---: | :---: | :--- |
 | $\alpha_I$ | 0.1 – 2.0 | 1.0 | Độ sáng (nhân vào RGB đầu ra PHVIT) |
 | $\alpha_S$ | 0.0 – 2.0 | 1.0 | Độ bão hòa (nhân vào S trong PHVIT) |
-| gamma | 0.1 – 5.0 | 1.0 | Lũy thừa ảnh đầu vào trước khi vào mạng |
-| $k$ | 0.5 – 50 | 5.0 | Mật độ vùng tối (chỉ dùng khi bỏ tick "Dùng k đã học") |
-| gamma cổ điển | 0.1 – 1.0 | 0.4 | Gamma Correction tự code |
+| $\gamma$ (gamma ảnh vào) | 0.1 – 5.0 | 1.0 | Mạng nhận $x^{\gamma}$ (lũy thừa ảnh đầu vào) |
+| $k$ | 0.5 – 50 | 5.0 | Mật độ vùng tối (chỉ dùng khi bỏ tick "Dùng k đã học"); code lưu `density_k = 1/k` |
+| $\gamma_c$ (gamma cổ điển) | 0.1 – 1.0 | 0.4 | Gamma Correction tự code |
 
 Gợi ý preset theo `eval.py` của repo gốc: **LOL-v1** → $\alpha_S = 1.3$, $\alpha_I = 1.0$; **LOL-v2-Real** → $\alpha_S = 1.0$, $\alpha_I = 0.80 – 0.84$.
 
